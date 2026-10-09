@@ -4,7 +4,7 @@
 //
 // Как определяется id: VK отдаёт анонимному браузеру SPA-оболочку, но вместе с ней кладёт
 // window.cur.apiPrefetchCache, где уже есть результат utils.resolveScreenName:
-// {"response":{"object_id":157232649,"type":"user"}}. Резерв — <meta property="og:url">.
+// {"response":{"object_id":123456789,"type":"user"}}. Резерв — <meta property="og:url">.
 // Ни токена, ни логина, ни подмены User-Agent.
 
 const VK_HOSTS = ["vk.com", "vk.ru"];

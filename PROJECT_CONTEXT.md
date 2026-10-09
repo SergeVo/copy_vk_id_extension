@@ -19,7 +19,7 @@
 
 ## Как работает (механика)
 - VK отдаёт анонимному браузеру SPA-оболочку, но вместе с ней кладёт `window.cur.apiPrefetchCache`, где уже посчитан `utils.resolveScreenName`:
-  `{"method":"utils.resolveScreenName","request":{"screen_name":"oksana__video"},"response":{"object_id":157232649,"type":"user"}}`.
+  `{"method":"utils.resolveScreenName","request":{"screen_name":"example_user"},"response":{"object_id":123456789,"type":"user"}}`.
 - `background.js` делает `fetch(https://vk.com/<имя>)` с `credentials:"omit"` (анонимно, без куки) и достаёт `object_id` (+ `type`) из кэша. Резерв — `<meta property="og:url">`.
 - Пункт меню создаётся в `chrome.contextMenus` с `targetUrlPatterns` `*://*.vk.com/*`, `*://*.vk.ru/*` (виден только на VK-ссылках).
 - Копирование (два пути): 1) offscreen-документ (`chrome.offscreen`, reason `CLIPBOARD`) → `textarea` + `document.execCommand("copy")`; 2) если offscreen недоступен/не сработал (напр. Яндекс) — инжект в активную вкладку через `chrome.scripting.executeScript` (там есть фокус и user-gesture от клика по меню). Прямой `navigator.clipboard` из SW недоступен.
@@ -38,11 +38,11 @@
 ## Верификация
 - `node --check background.js offscreen.js`; `python -c "import json;json.load(open('manifest.json'))"`.
 - Юнит-тест логики (вне браузера): `node <temp>/vk_test.js` — 17 проверок `extractTarget`/`parseVkId`/`resolveVkId` на реальном HTML:
-  `oksana__video → 157232649 (user)`, `durov → 1 (user)`, `vk → 22822305 (group)`, og-fallback `durov → 1`. Все pass.
+  `example_user → 123456789 (user)`, `example_group → 987654321 (group)`, og-fallback `example_user → 123456789`. Все pass.
 - Вживую (Яндекс Браузер) подтверждено: резолв через `fetch` из service worker и запись в буфер (offscreen и/или фолбэк в вкладку — какой именно путь сработал, не выясняли, работает итог).
 
 ## Вехи
-- 2026-10-09 — v1.0.0: подход через бот-UA + `og:url`. Уперлись: у ряда профилей (`oksana__video`, `noindex`) `og:url` нет.
+- 2026-10-09 — v1.0.0: подход через бот-UA + `og:url`. Уперлись: у ряда профилей (`noindex`) `og:url` нет.
 - 2026-10-09 — v1.1.0: найден надёжный источник — `apiPrefetchCache` в обычном (анонимном) ответе; DNR/подмена UA удалены. Тесты 17/17.
 - 2026-10-09 — v1.1.1: префилл в попапе только для реальных профилей; убран авто-поиск.
 - 2026-10-09 — v1.2.0: пункт «VK ID — показать ID» в контекстном меню → окно результата.

@@ -37,8 +37,8 @@ Chrome / Edge / Яндекс Браузер (Manifest V3, десктоп).
 ВК отдаёт обычному браузеру SPA-оболочку, в которой id профиля рисуется скриптом. Но вместе с оболочкой приходит `window.cur.apiPrefetchCache` — кэш префетча, где уже есть результат `utils.resolveScreenName`:
 
 ```json
-{"method":"utils.resolveScreenName","request":{"screen_name":"oksana__video"},
- "response":{"object_id":157232649,"type":"user"}}
+{"method":"utils.resolveScreenName","request":{"screen_name":"example_user"},
+ "response":{"object_id":123456789,"type":"user"}}
 ```
 
 Расширение запрашивает `https://vk.com/<имя>` анонимно (`credentials: "omit"`, без куки) и достаёт `object_id` из этого кэша. Резервный путь — `<meta property="og:url" content="…/idNNN">`.
