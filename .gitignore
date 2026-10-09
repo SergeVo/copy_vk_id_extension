@@ -1,0 +1,14 @@
+# OS / редакторы
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Временное / сборка
+*.zip
+*.crx
+*.pem
+node_modules/
+__pycache__/
+*.pyc
+.vscode/
+.idea/
